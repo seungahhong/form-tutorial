@@ -1,22 +1,28 @@
 // less code
 // better validation
-// better errors (set, clear, display)
+// better errors (set, clear)
 // have control over inputs
 // dont deal with events
 // easier inputs
 
-import { useState } from "react";
 import { FieldErrors, useForm } from "react-hook-form";
 
 interface formTypes {
   userName: string;
   email: string;
   password: string;
+  errors?: string;
 }
 
 function ReactHookForm() {
-  const [error, setError] = useState("");
-  const { register, watch, handleSubmit } = useForm<formTypes>();
+  const {
+    register,
+    watch,
+    handleSubmit,
+    setError,
+    resetField,
+    formState: { errors: stateErrors },
+  } = useForm<formTypes>();
   const { userName = "", email = "", password = "" } = watch();
 
   const handleValid = (data: formTypes) => {};
@@ -24,12 +30,14 @@ function ReactHookForm() {
   const handleInvalid = (errors: FieldErrors) => {
     const { userName, email, password } = errors;
 
+    resetField("errors");
+
     if (userName) {
-      setError(userName.message);
+      setError("errors", { message: userName.message });
     } else if (email) {
-      setError(email.message);
+      setError("errors", { message: email.message });
     } else {
-      setError(password.message);
+      setError("errors", { message: password.message });
     }
   };
 
@@ -60,7 +68,7 @@ function ReactHookForm() {
         <input type="submit" />
       </form>
       <div>{`${userName}${email}${password}`}</div>
-      {error && <span>{error}</span>}
+      <span>{stateErrors.errors?.message}</span>
     </>
   );
 }
