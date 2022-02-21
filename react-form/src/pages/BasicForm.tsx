@@ -29,6 +29,12 @@ function BasicForm() {
     } else if (!password) {
       setError("password is Required");
       passwordRef.current?.focus();
+    } else {
+      // 성공
+      setUserName("");
+      setEmail("");
+      setPassword("");
+      setError("");
     }
   };
 
@@ -50,12 +56,40 @@ function BasicForm() {
     setPassword(event.target.value);
   };
 
+  const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+    setError("");
+
+    // userName 체크
+    if (!userName || userName.length < 5) {
+      if (!userName) {
+        setError("userName is Required");
+      } else {
+        setError("userName 길이가 5보다 커야합니다.");
+      }
+
+      userNameRef.current?.focus();
+    } else if (!email) {
+      setError("email is Required");
+      emailRef.current?.focus();
+    } else if (!password) {
+      setError("password is Required");
+      passwordRef.current?.focus();
+    } else {
+      // 성공
+      setUserName("");
+      setEmail("");
+      setPassword("");
+      setError("");
+    }
+  };
+
   return (
     <>
       <form onSubmit={handleSubmit}>
         <input
           value={userName}
           onChange={handleUsernameChange}
+          onBlur={handleBlur}
           type="text"
           placeholder="Username"
           ref={userNameRef}
@@ -63,6 +97,7 @@ function BasicForm() {
         <input
           value={email}
           onChange={handleEmailChange}
+          onBlur={handleBlur}
           type="email"
           ref={emailRef}
           placeholder="Email"
@@ -70,6 +105,7 @@ function BasicForm() {
         <input
           value={password}
           onChange={handlePasswordChange}
+          onBlur={handleBlur}
           type="password"
           ref={passwordRef}
           placeholder="Password"

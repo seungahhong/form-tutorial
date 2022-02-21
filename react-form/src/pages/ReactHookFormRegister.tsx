@@ -1,10 +1,11 @@
 // less code
 // better validation
 // better errors (set, clear)
-// have control over inputs
+// have control easier inputs event
 // dont deal with events
 // easier inputs
 
+import { useEffect } from "react";
 import { FieldErrors, useForm } from "react-hook-form";
 
 interface formTypes {
@@ -14,23 +15,34 @@ interface formTypes {
   errors?: string;
 }
 
-function ReactHookForm() {
+function ReactHookFormRegister() {
   const {
     register,
     watch,
     handleSubmit,
     setError,
-    resetField,
+    reset,
+    clearErrors,
     formState: { errors: stateErrors },
-  } = useForm<formTypes>();
+  } = useForm<formTypes>({
+    mode: "onBlur",
+    defaultValues: {
+      userName: "",
+      email: "",
+      password: "",
+      errors: "",
+    },
+  });
   const { userName = "", email = "", password = "" } = watch();
 
-  const handleValid = (data: formTypes) => {};
+  const handleValid = (data: formTypes) => {
+    reset();
+  };
 
   const handleInvalid = (errors: FieldErrors) => {
     const { userName, email, password } = errors;
 
-    resetField("errors");
+    clearErrors("errors");
 
     if (userName) {
       setError("errors", { message: userName.message });
@@ -40,6 +52,20 @@ function ReactHookForm() {
       setError("errors", { message: password.message });
     }
   };
+
+  useEffect(() => {
+    const { userName, email, password } = stateErrors;
+
+    clearErrors("errors");
+
+    if (userName) {
+      setError("errors", { message: userName.message });
+    } else if (email) {
+      setError("errors", { message: email.message });
+    } else {
+      setError("errors", { message: password?.message });
+    }
+  }, [stateErrors.email, stateErrors.password, stateErrors.userName]);
 
   return (
     <>
@@ -73,4 +99,4 @@ function ReactHookForm() {
   );
 }
 
-export default ReactHookForm;
+export default ReactHookFormRegister;

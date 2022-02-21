@@ -24,10 +24,18 @@ const Template = ({ children }: TemplateProps) => {
         </li>
         <li>
           <NavLink
-            to="/react-hook-form"
+            to="/react-hook-form-register"
             style={({ isActive }) => (isActive ? activeStyle : {})}
           >
-            React-hook-form
+            React-hook-form-register
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            to="/react-hook-form-controller"
+            style={({ isActive }) => (isActive ? activeStyle : {})}
+          >
+            React-hook-form-controller
           </NavLink>
         </li>
       </ul>

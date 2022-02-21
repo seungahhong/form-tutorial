@@ -4,14 +4,22 @@ import Template from "./Template";
 import "./App.css";
 
 import BasicForm from "./pages/BasicForm";
-import ReactHookForm from "./pages/ReactHookForm";
+import ReactHookFormRegister from "./pages/ReactHookFormRegister";
+import ReactHookFormController from "./pages/ReactHookFormController";
 
 function App() {
   return (
     <Template>
       <Routes>
         <Route path="/" element={<BasicForm />} />
-        <Route path="/react-hook-form" element={<ReactHookForm />} />
+        <Route
+          path="/react-hook-form-register"
+          element={<ReactHookFormRegister />}
+        />
+        <Route
+          path="/react-hook-form-controller"
+          element={<ReactHookFormController />}
+        />
       </Routes>
     </Template>
   );
