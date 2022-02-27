@@ -66,20 +66,10 @@ function BasicForm() {
       } else {
         setError("userName 길이가 5보다 커야합니다.");
       }
-
-      userNameRef.current?.focus();
     } else if (!email) {
       setError("email is Required");
-      emailRef.current?.focus();
     } else if (!password) {
       setError("password is Required");
-      passwordRef.current?.focus();
-    } else {
-      // 성공
-      setUserName("");
-      setEmail("");
-      setPassword("");
-      setError("");
     }
   };
 

@@ -12,10 +12,9 @@ const ReactHookFormController = () => {
   const { control, handleSubmit, watch } = useForm<formTypes>({
     defaultValues: {
       name: "",
-      select: {},
     },
   });
-  const { name = "", select } = watch();
+  const { name = "" } = watch();
 
   const handleValid = (data: formTypes) => console.log(data);
 
