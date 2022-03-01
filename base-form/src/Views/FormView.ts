@@ -7,6 +7,11 @@ interface formViewTypes {
   element: HTMLInputElement | HTMLDivElement;
 }
 
+interface validateViewOptions {
+  message: string;
+  focus?: string;
+}
+
 class FormView extends View {
   userNameInput: formViewTypes;
   emailInput: formViewTypes;
@@ -41,12 +46,24 @@ class FormView extends View {
     on(this.userNameInput.element, 'change', (event) => {
       this.emit('userName@change', (event.target as HTMLInputElement).value);
     });
+    on(this.userNameInput.element, 'blur', () => {
+      this.emit('@blur');
+    });
+
     on(this.emailInput.element, 'change', (event) => {
       this.emit('email@change', (event.target as HTMLInputElement).value);
     });
+    on(this.emailInput.element, 'blur', () => {
+      this.emit('@blur');
+    });
+
     on(this.passwordInput.element, 'change', (event) => {
       this.emit('password@change', (event.target as HTMLInputElement).value);
     });
+    on(this.passwordInput.element, 'blur', () => {
+      this.emit('@blur');
+    });
+
     this.on('submit', (event) => {
       event.preventDefault();
 
@@ -56,9 +73,12 @@ class FormView extends View {
 
   destory() {
     remove(this.userNameInput.element, 'change', () => {});
+    remove(this.userNameInput.element, 'blur', () => {});
     remove(this.emailInput.element, 'change', () => {});
+    remove(this.emailInput.element, 'blur', () => {});
     remove(this.passwordInput.element, 'change', () => {});
-    this.remove('submit', (event) => {});
+    remove(this.passwordInput.element, 'blur', () => {});
+    this.remove('submit', () => {});
   }
 
   clear() {
@@ -67,12 +87,15 @@ class FormView extends View {
     set(this.passwordInput.element as HTMLInputElement, '');
   }
 
-  focus(key: string) {
-    if (this.userNameInput.key === key) {
+  validate(validateOptions: validateViewOptions) {
+    const { message, focus: focusKey } = validateOptions;
+    set(this.errorDiv.element as HTMLDivElement, message);
+
+    if (this.userNameInput.key === focusKey) {
       focus(this.userNameInput.element);
-    } else if (this.emailInput.key === key) {
+    } else if (this.emailInput.key === focusKey) {
       focus(this.emailInput.element);
-    } else if (this.passwordInput.key === key) {
+    } else if (this.passwordInput.key === focusKey) {
       focus(this.passwordInput.element);
     }
   }

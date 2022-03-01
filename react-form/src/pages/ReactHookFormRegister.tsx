@@ -79,17 +79,17 @@ function ReactHookFormRegister() {
             },
           })}
           type="text"
-          placeholder="Username"
+          placeholder="이름을 입력하세요."
         />
         <input
           {...register("email", { required: "email is Required" })}
           type="email"
-          placeholder="Email"
+          placeholder="이메일을 입력하세요."
         />
         <input
           {...register("password", { required: "password is Required" })}
           type="password"
-          placeholder="Password"
+          placeholder="패스워드를 입력하세요."
         />
         <input type="submit" />
       </form>

@@ -15,9 +15,9 @@ class FormController {
     this.formView = new FormView();
     this.formModel = {
       userNameModel: new FormModel('userName', {
-        required: 'name is Required',
+        required: 'userName is Required',
         minLength: {
-          message: 'name 길이가 5보다 커야합니다.',
+          message: 'userName 길이가 5보다 커야합니다.',
           value: 5,
         },
       }),
@@ -41,23 +41,28 @@ class FormController {
 
         const userName = userNameModel.getValid();
         if (userName) {
-          this.formView.errorMssage(userName.message);
-          this.formView.focus(userName.key);
+          this.formView.validate({
+            message: userName.message,
+            focus: userName.key,
+          });
           return;
         }
 
         const email = emailModel.getValid();
         if (email) {
-          this.formView.errorMssage(email.message);
-          this.formView.focus(email.key);
+          this.formView.validate({
+            message: email.message,
+            focus: email.key,
+          });
           return;
         }
 
         const password = passwordModel.getValid();
         if (password) {
-          this.formView.errorMssage(password.message);
-          this.formView.focus(password.key);
-          return;
+          this.formView.validate({
+            message: password.message,
+            focus: password.key,
+          });
         }
       })
       .on('userName@change', (event) => {
@@ -71,6 +76,32 @@ class FormController {
       .on('password@change', (event) => {
         const { passwordModel } = this.formModel;
         passwordModel.setValue((event as CustomEvent).detail);
+      })
+      .on('@blur', () => {
+        const { userNameModel, emailModel, passwordModel } = this.formModel;
+
+        const userName = userNameModel.getValid();
+        if (userName) {
+          this.formView.validate({
+            message: userName.message,
+          });
+          return;
+        }
+
+        const email = emailModel.getValid();
+        if (email) {
+          this.formView.validate({
+            message: email.message,
+          });
+          return;
+        }
+
+        const password = passwordModel.getValid();
+        if (password) {
+          this.formView.validate({
+            message: password.message,
+          });
+        }
       });
   }
 
